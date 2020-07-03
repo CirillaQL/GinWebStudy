@@ -6,8 +6,8 @@ import (
 )
 
 func Login(c *gin.Context){
-	name := c.PostForm("u")
-	password := c.PostForm("p")
+	//name := c.PostForm("u")
+	//password := c.PostForm("p")
 
 
 }

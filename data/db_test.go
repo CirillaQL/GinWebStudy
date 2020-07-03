@@ -8,7 +8,7 @@ import (
 )
 
 func TestLoginCheck(t *testing.T) {
-	var name string = "jojo"
+	var name string = "jo"
 	var password string = "123456"
 	db, err := sql.Open("mysql", "root:123456@/MyBlog?charset=utf8")
 	if err != nil {
@@ -19,8 +19,9 @@ func TestLoginCheck(t *testing.T) {
 
 	var Password string
 	//查询
-	result := db.QueryRow("select Password from User where Name = ?",name)
+	result := db.QueryRow("select * from User where Name = ?",name)
 	err = result.Scan(&Password);
+	fmt.Println(result)
 	if err != nil{
 		log.Println("登录失败，用户名不存在")
 		t.Error(err)
@@ -28,7 +29,7 @@ func TestLoginCheck(t *testing.T) {
 	if password == Password{
 		t.Log("Ok")
 	}else{
-		t.Error()
+		t.Error(err)
 	}
 }
 

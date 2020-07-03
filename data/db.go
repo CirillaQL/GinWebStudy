@@ -25,8 +25,9 @@ func SaveToDataBase(user User) bool{
 	return true
 }
 
-//向数据库查询用户
-func LoginCheck(name string, password string) bool{
+//查询用户名是否存在
+func CheckUser(username string) bool {
+	//第⼀步：打开数据库,格式是 ⽤户名：密码@/数据库名称？编码⽅式
 	db, err := sql.Open("mysql", "root:123456@/MyBlog?charset=utf8")
 	if err != nil {
 		fmt.Println(err)
@@ -34,18 +35,14 @@ func LoginCheck(name string, password string) bool{
 	//关闭数据库
 	defer db.Close()
 
-	var Password string
-	//查询
-	result := db.QueryRow("select Password from User where Name = ?",name)
-	err = result.Scan(&Password);
-	if err != nil{
-		log.Println("登录失败，用户名不存在")
-		return false
-	}
-	if password == Password{
-		return true
-	}else{
-		return false
-	}
-}
 
+	//查询
+	var Password string
+	result := db.QueryRow("select password from User where Name = ?",username)
+	err = result.Scan(&Password);
+	if err == nil{
+		log.Println("用户名重复，注册失败")
+		return false
+	}
+	return true
+}
