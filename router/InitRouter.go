@@ -38,7 +38,7 @@ func InitRouter() {
 
 	work := router.Group("/api")
 	{
-		work.GET("/upload")
+		work.POST("/upload", controllers.GetPicture)
 	}
 
 	router.Run(":8080")
