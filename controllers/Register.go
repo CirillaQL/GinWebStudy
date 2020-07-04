@@ -1,10 +1,11 @@
 package controllers
 
 import (
+	"GinWebStudy/data"
+	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
 //Get命令时Handler
@@ -14,37 +15,35 @@ func RegisterGet(c *gin.Context) {
 
 //Post命令时Handler
 func RegisterPost(c *gin.Context) {
+	/*
+		从HTML中读取数据
+	*/
 	username := c.PostForm("name")
+	mobile := c.PostForm("mobile")
 	password := c.PostForm("psd")
-	//repassword := c.PostForm("repassword")
+	log.Println("用户注册:    ", "用户名：", username, "手机号码：", mobile, "密码：", password)
 
-	//确认密码
 	/*
-		if password != repassword {
-			c.JSON(http.StatusOK, gin.H{
-				"code":    0,
-				"message": "密码不一致",
-			})
-			return
-		}*/
+		生成结构体
+	*/
+	//转化密码为密文
+	psd, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		log.Fatal("密码加密失败!  Error:", err)
+	}
+	//生成用户
+	userRegister := data.User{
+		ID:          data.CreateID(),
+		Name:        username,
+		Password:    string(psd),
+		PhoneNumber: mobile,
+	}
 
-	log.Println("用户名：", username, "密码：", password)
-	/*
-		userRegister := data.User{
-			Id:       data.CreateID(),
-			Name:     username,
-			Password: password,
-		}*/
+	ans := data.SaveToDataBase(userRegister)
+	if ans {
+		c.Redirect(http.StatusMovedPermanently, "/")
+	} else {
+		log.Fatal("插入失败!")
+	}
 
-	//检查数据库中是否重复
-	/*
-		if !data.CheckUser(username) {
-			c.JSON(http.StatusOK, gin.H{
-				"code":    0,
-				"message": "用户名重复",
-			})
-		}*/
-
-	//data.SaveToDataBase(userRegister)
-	c.Redirect(http.StatusMovedPermanently, "/")
 }

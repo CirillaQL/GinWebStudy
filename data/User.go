@@ -1,33 +1,31 @@
 package data
 
 import (
-	_ "database/sql"
-	_ "github.com/go-sql-driver/mysql"
-	"math/rand"
-	"time"
+	uuid "github.com/satori/go.uuid"
 )
 
-//用户结构体
+//User 用户结构体
 type User struct {
-	Id int
-	Name string
-	Password string
+	ID          string
+	Name        string
+	PhoneNumber string
+	Password    string
 }
 
-//生成用户id
-func CreateID() int{
-	rand.Seed(time.Now().Unix())
-	return rand.Intn(10000)
+//CreateID 生成uuid
+func CreateID() string {
+	u1 := uuid.NewV4()
+	uuid := u1.String()
+	return uuid
 }
 
-//生成用户
-func CreateUser(name string, password string) User{
+//CreateUser 生成用户
+func CreateUser(name string, password string, number string) User {
 	user := User{
-		Id:       CreateID(),
-		Name:     name,
-		Password: password,
+		ID:          CreateID(),
+		Name:        name,
+		Password:    password,
+		PhoneNumber: number,
 	}
 	return user
 }
-
-

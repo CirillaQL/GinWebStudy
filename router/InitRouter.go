@@ -16,6 +16,7 @@ func InitRouter() {
 	router.Static("/static/css", "./static/css")
 	router.Static("/static/img", "./static/img")
 	router.Static("/static/libs", "./static/libs")
+	router.Static("/static/js", "./static/js")
 	router.StaticFile("/favicon.ico", "./static/icon/favicon.ico")
 
 	//设置默认路由访问到错误网站时返回
@@ -31,6 +32,12 @@ func InitRouter() {
 	})
 
 	router.GET("/upload", controllers.Upload)
+
+	router.GET("/photo", func(context *gin.Context) {
+		context.HTML(http.StatusOK, "photo.html", gin.H{
+			"image": "../static/img/gjeyz3.jpg",
+		})
+	})
 
 	router.POST("/login", controllers.Login)
 
