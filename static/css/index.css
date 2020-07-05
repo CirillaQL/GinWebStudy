@@ -4,19 +4,3 @@ html,body{
     background-size: cover;
     height: 100%;
 }
-
-.col-sm-6 col-md-3{
-    height: 500px;
-}
-
-#center{
-    width: 80%;
-    
-}
-
-img{
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-}

@@ -2,9 +2,8 @@ package router
 
 import (
 	"GinWebStudy/controllers"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func InitRouter() {
@@ -34,13 +33,17 @@ func InitRouter() {
 	router.GET("/upload", controllers.Upload)
 
 	router.GET("/photo", func(context *gin.Context) {
+		p := []string{"www.baidu.com", "www.baidu.com", "www.baidu.com"}
 		context.HTML(http.StatusOK, "photo.html", gin.H{
-			"image": "../static/img/gjeyz3.jpg",
+			"name": "JoJo",
+			"show": p,
 		})
 	})
 
-	router.POST("/login", controllers.Login)
+	router.GET("/login", controllers.LoginGet)
+	router.POST("/login", controllers.LoginPost)
 
+	//注册
 	router.GET("/register", controllers.RegisterGet)
 	router.POST("/register", controllers.RegisterPost)
 

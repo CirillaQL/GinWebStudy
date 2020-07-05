@@ -3,94 +3,35 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="../static/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../static/css/index.css">
-    <title>Hello, world!</title>
+    <title>个人主页</title>
 </head>
 <body>
-<div class="row" id="center">
-    <div class="col-sm-6 col-md-3">
-        <div class="thumbnail">
-            <img src={{.image}}
-                 alt="通用的占位符缩略图">
-        </div>
-        <div class="caption">
-            <h3>缩略图标签</h3>
-            <p>一些示例文本。一些示例文本。</p>
-            <p>
-                <a href="#" class="btn btn-primary" role="button">
-                    按钮
-                </a>
-                <a href="#" class="btn btn-default" role="button">
-                    按钮
-                </a>
-            </p>
-        </div>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <span class="navbar-brand">{{.name}}</span>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+            {{range .show}}
+            <li class="nav-item"><a href={{.}} class="nav-link">测试</a></li>
+            {{end}}
+        </ul>
     </div>
-    <div class="col-sm-6 col-md-3">
-        <div class="thumbnail">
-            <img src={{.image}}
-                 alt="通用的占位符缩略图">
-        </div>
-        <div class="caption">
-            <h3>缩略图标签</h3>
-            <p>一些示例文本。一些示例文本。</p>
-            <p>
-                <a href="#" class="btn btn-primary" role="button">
-                    按钮
-                </a>
-                <a href="#" class="btn btn-default" role="button">
-                    按钮
-                </a>
-            </p>
-        </div>
-    </div>
-    <div class="col-sm-6 col-md-3">
-        <div class="thumbnail">
-            <img src={{.image}}
-                 alt="通用的占位符缩略图">
-        </div>
-        <div class="caption">
-            <h3>缩略图标签</h3>
-            <p>一些示例文本。一些示例文本。</p>
-            <p>
-                <a href="#" class="btn btn-primary" role="button">
-                    按钮
-                </a>
-                <a href="#" class="btn btn-default" role="button">
-                    按钮
-                </a>
-            </p>
-        </div>
-    </div>
-    <div class="col-sm-6 col-md-3">
-        <div class="thumbnail">
-            <img src={{.image}}
-                 alt="通用的占位符缩略图">
-        </div>
-        <div class="caption">
-            <h3>缩略图标签</h3>
-            <p>一些示例文本。一些示例文本。</p>
-            <p>
-                <a href="#" class="btn btn-primary" role="button">
-                    按钮
-                </a>
-                <a href="#" class="btn btn-default" role="button">
-                    按钮
-                </a>
-            </p>
-        </div>
-    </div>
+</nav>
+<br>
+<div class="text-center" id="main-show">
+    <h1>居中显示测试</h1>
+
 </div>
 
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="../static/libs/jquery-3.5.0/jquery-3.5.0.min.js"></script>
+<script src="../static/js/bootstrap.js"></script>
+
 </body>
 </html>
