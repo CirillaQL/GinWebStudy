@@ -6,6 +6,11 @@ import (
 	"net/http"
 )
 
+type Photo struct {
+	Name string
+	Url  string
+}
+
 func InitRouter() {
 	//设置为ReleaseMode模式
 	gin.SetMode(gin.ReleaseMode)
@@ -33,10 +38,20 @@ func InitRouter() {
 	router.GET("/upload", controllers.Upload)
 
 	router.GET("/photo", func(context *gin.Context) {
-		p := []string{"www.baidu.com", "www.baidu.com", "www.baidu.com"}
+		a := Photo{
+			Name: "1",
+			Url:  "../static/img/2k5zd9.jpg",
+		}
+		b := Photo{
+			Name: "2",
+			Url:  "../static/img/2k5zd9.jpg",
+		}
+
+		k := []Photo{a, b}
+		//p := []string{"../static/img/2k5zd9.jpg", "../static/img/2k5zd9.jpg", "../static/img/2k5zd9.jpg"}
 		context.HTML(http.StatusOK, "photo.html", gin.H{
-			"name": "JoJo",
-			"show": p,
+			"name":  "你好,JoJo",
+			"image": k,
 		})
 	})
 

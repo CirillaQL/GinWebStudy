@@ -26,7 +26,23 @@
 <br>
 <div class="text-center" id="main-show">
     <h1>居中显示测试</h1>
-
+    <div class="container">
+        <div class="row">
+            {{range .image}}
+            <div class="col-md-4">
+                <br/>
+                <div class="card">
+                    <img class="card-img-top img-thumbnail" src="{{.Url}}">
+                    <div class="card-body">
+                        <h4>{{.Name}}</h4>
+                    </div>
+                </div>
+                <br/>
+            </div>
+            {{end}}
+            <!-- 说明：每row行共12列，分个3div，每个div平占4列，即3个*4列=12列 -->
+        </div>
+    </div>
 </div>
 
 

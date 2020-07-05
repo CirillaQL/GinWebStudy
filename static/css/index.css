@@ -1,6 +1,11 @@
 html,body{
-    background-image: linear-gradient(to bottom, #7DB9DE 0, #2EA9DF 100%);
-    background-repeat: repeat-x;
+    background-image: url("../img/n65epw.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-size: cover;
-    height: 100%;
+}
+
+.row {
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
