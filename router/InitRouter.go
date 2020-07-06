@@ -31,6 +31,12 @@ func InitRouter() {
 		})
 	})
 
+	//路由分组
+	HomePage := router.Group("/homepage")
+	{
+		HomePage.GET("/:suer")
+	}
+
 	router.GET("/", func(context *gin.Context) {
 		context.HTML(http.StatusOK, "index.html", gin.H{})
 	})
