@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"GinWebStudy/data"
+	_ "GinWebStudy/util"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"log"
