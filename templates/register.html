@@ -47,7 +47,7 @@
   
 
 	</div>
-	<script src="../static/libs/jquery-1.12.4/jquery.min.js"></script>
+	<script src="../static/libs/jquery-3.5.0/jquery-3.5.0.min.js"></script>
 	<script src="../static/libs/sweetalert2/sweetalert2.min.js"></script>
 	<script src="../static/libs/particles/particles.min.js"></script>
 	<script src="../static/libs/particles/js/app.js"></script>
@@ -146,10 +146,8 @@
     		$("form .required:input").trigger("blur"); 
     		var numError = $("form .onError").length;
     		if(numError){
-    			return false;
+    			alert("输入项错误")
     		}
-    		//alert('注册成功！')
-
     	});
 		})
 		

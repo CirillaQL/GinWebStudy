@@ -2,14 +2,10 @@ package router
 
 import (
 	"GinWebStudy/controllers"
+	"GinWebStudy/middleware"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
-
-type Photo struct {
-	Name string
-	Url  string
-}
 
 func InitRouter() {
 	//设置为ReleaseMode模式
@@ -21,20 +17,24 @@ func InitRouter() {
 	router.Static("/static/img", "./static/img")
 	router.Static("/static/libs", "./static/libs")
 	router.Static("/static/js", "./static/js")
+	router.Static("/homepage/upload", "./upload")
 	router.StaticFile("/favicon.ico", "./static/icon/favicon.ico")
 
 	//设置默认路由访问到错误网站时返回
-	router.NoRoute(func(context *gin.Context) {
-		context.JSON(http.StatusNotFound, gin.H{
-			"status": 404,
-			"error":  "Page Not Exists",
-		})
-	})
+
+	//登录
+	router.GET("/login", controllers.LoginGet)
+	router.POST("/login", controllers.LoginPost)
+
+	//注册
+	router.GET("/register", controllers.RegisterGet)
+	router.POST("/register", controllers.RegisterPost)
 
 	//路由分组
 	HomePage := router.Group("/homepage")
+	HomePage.Use(middleware.UserCheck())
 	{
-		HomePage.GET("/:suer")
+		HomePage.GET("/", controllers.IndexHTML)
 	}
 
 	router.GET("/", func(context *gin.Context) {
@@ -42,31 +42,6 @@ func InitRouter() {
 	})
 
 	router.GET("/upload", controllers.Upload)
-
-	router.GET("/photo", func(context *gin.Context) {
-		a := Photo{
-			Name: "1",
-			Url:  "../static/img/2k5zd9.jpg",
-		}
-		b := Photo{
-			Name: "2",
-			Url:  "../static/img/2k5zd9.jpg",
-		}
-
-		k := []Photo{a, b}
-		//p := []string{"../static/img/2k5zd9.jpg", "../static/img/2k5zd9.jpg", "../static/img/2k5zd9.jpg"}
-		context.HTML(http.StatusOK, "photo.html", gin.H{
-			"name":  "你好,JoJo",
-			"image": k,
-		})
-	})
-
-	router.GET("/login", controllers.LoginGet)
-	router.POST("/login", controllers.LoginPost)
-
-	//注册
-	router.GET("/register", controllers.RegisterGet)
-	router.POST("/register", controllers.RegisterPost)
 
 	work := router.Group("/api")
 	{

@@ -1,15 +1,17 @@
 package util
 
 import (
+	"io/ioutil"
 	"log"
 	"os"
 )
 
 //Picture 结构体
 type Picture struct {
-	Name    string
-	Address string
-	Owner   string
+	Name     string
+	Describe string
+	Address  string
+	Owner    string
 }
 
 //ChangeName 修改文件名
@@ -21,4 +23,22 @@ func (p *Picture) ChangeName(username string, filename string) bool {
 		return false
 	}
 	return true
+}
+
+func GetPictureList(username string) []Picture {
+	var PictureList []Picture
+	srcDir := "./upload/" + username + "/"
+	file, _ := ioutil.ReadDir(srcDir)
+	//fmt.Println("路径: "+srcDir)
+	for _, r := range file {
+		Path := srcDir + r.Name()
+		picture := Picture{
+			Name:     r.Name(),
+			Describe: "",
+			Address:  Path,
+			Owner:    username,
+		}
+		PictureList = append(PictureList, picture)
+	}
+	return PictureList
 }

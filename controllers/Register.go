@@ -3,6 +3,7 @@ package controllers
 import (
 	"GinWebStudy/util"
 	_ "GinWebStudy/util"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 	"log"
@@ -32,6 +33,7 @@ func RegisterPost(c *gin.Context) {
 	if err != nil {
 		log.Fatal("密码加密失败!  Error:", err)
 	}
+
 	//生成用户
 	userRegister := util.User{
 		ID:          util.CreateID(),
@@ -42,9 +44,13 @@ func RegisterPost(c *gin.Context) {
 
 	ans := util.SaveToDataBase(userRegister)
 	if ans {
-		c.Redirect(http.StatusMovedPermanently, "/")
+
+		fmt.Println("注册成功")
 	} else {
 		log.Fatal("插入失败!")
 	}
 
+	c.SetCookie("user", username, 3*3600, "/homepage", "localhost", false, true)
+	c.SetCookie("isLogin", "true", 3*3600, "/homepage", "localhost", false, true)
+	c.Redirect(http.StatusMovedPermanently, "/homepage?username="+username)
 }
