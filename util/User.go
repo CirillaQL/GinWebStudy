@@ -1,8 +1,8 @@
 package util
 
 import (
+	"encoding/base64"
 	uuid "github.com/satori/go.uuid"
-	"golang.org/x/crypto/bcrypt"
 	"log"
 )
 
@@ -37,14 +37,9 @@ func CreateUser(name string, password string, number string) User {
 	将用户的密码加密，保存到数据库中
 */
 func (user *User) EncryptPassword() {
-	var OriginalPassword string = user.Password
-	EncryptionPassword, err := bcrypt.GenerateFromPassword([]byte(OriginalPassword), bcrypt.DefaultCost)
-	if err != nil {
-		log.Fatal("用户: ", user.Name, " 加密失败! Error: ", OriginalPassword)
-		return
-	}
-	AfterPassword := string(EncryptionPassword)
-	user.Password = AfterPassword
+	input := []byte(user.Password)
+	encodeString := base64.StdEncoding.EncodeToString(input)
+	user.Password = encodeString
 }
 
 /*
@@ -52,9 +47,17 @@ func (user *User) EncryptPassword() {
 	匹配用户密码，将输入密码与数据库中密码进行匹配
 */
 func (user *User) CheckPassword(InputPassword string) bool {
-	result := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(InputPassword))
-	if result != nil {
+	decodeBytes, err := base64.StdEncoding.DecodeString(user.Password)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	aaa, err := base64.StdEncoding.DecodeString(string(decodeBytes))
+	if err != nil {
+		log.Fatalln(err)
+	}
+	if InputPassword == string(aaa) {
+		return true
+	} else {
 		return false
 	}
-	return true
 }

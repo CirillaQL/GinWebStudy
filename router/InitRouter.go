@@ -20,11 +20,10 @@ func InitRouter() {
 	router.Static("/homepage/upload", "./upload")
 	router.StaticFile("/favicon.ico", "./static/icon/favicon.ico")
 
-	//设置默认路由访问到错误网站时返回
-
 	//登录
 	router.GET("/login", controllers.LoginGet)
 	router.POST("/login", controllers.LoginPost)
+	router.GET("/loginWrong", controllers.LoginWrong)
 
 	//注册
 	router.GET("/register", controllers.RegisterGet)
@@ -38,7 +37,7 @@ func InitRouter() {
 	}
 
 	router.GET("/", func(context *gin.Context) {
-		context.HTML(http.StatusOK, "index.html", gin.H{})
+		context.Redirect(http.StatusMovedPermanently, "/login")
 	})
 
 	router.GET("/upload", controllers.Upload)

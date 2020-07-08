@@ -29,12 +29,12 @@
             <div class="col-md-4">
                 <br/>
                 <div class="card">
-                    <img class="card-img-top img-thumbnail" src="{{.Address}}">
+                    <img class="card-img-top img-thumbnail" src="{{.Address}}" onclick="javascript:window.open(this.src)">
                     <div class="card-body">
                         <h4 class="card-title">{{.Name}}</h4>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary check" id="Check">查看</a>
-                        <a href="#" class="btn btn-primary delete" id="Delete">删除</a>
+                        <button class="btn btn-primary check" id="Check" onclick="lookimg({{.Address}})">查看</button>
+                        <a class="btn btn-primary delete" id="Delete">删除</a>
                     </div>
                 </div>
                 <br/>
@@ -49,13 +49,12 @@
 <script src="../static/libs/jquery-3.5.0/jquery-3.5.0.min.js"></script>
 <script src="../static/js/bootstrap.js"></script>
 
+
 <script>
-    window.onload = function(){
-        $(".check").on("click",function(){
-            const url = ($(this).parent().parent().find("img").attr("src"));
-            arr = url.split("/")
-            window.open("localhost:8080/{{.name}}/"+arr[arr.length-1])
-        });
+    function lookimg(str)
+    {
+        var newwin=window.open()
+        newwin.document.write("<img src="+str+" />")
     }
 </script>
 

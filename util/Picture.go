@@ -16,7 +16,7 @@ type Picture struct {
 
 //ChangeName 修改文件名
 func (p *Picture) ChangeName(username string, filename string) bool {
-	file := "../upload/" + username + "/" + p.Name
+	file := "./upload/" + username + "/" + p.Name
 	err := os.Rename(file, "../upload/"+username+"/"+filename)
 	if err != nil {
 		log.Fatal("用户: ", username, " 修改图片名： ", p.Name, " 失败")
@@ -29,7 +29,6 @@ func GetPictureList(username string) []Picture {
 	var PictureList []Picture
 	srcDir := "./upload/" + username + "/"
 	file, _ := ioutil.ReadDir(srcDir)
-	//fmt.Println("路径: "+srcDir)
 	for _, r := range file {
 		Path := srcDir + r.Name()
 		picture := Picture{

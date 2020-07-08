@@ -34,6 +34,5 @@ func UserCheck() gin.HandlerFunc {
 			c.Redirect(http.StatusMovedPermanently, "/login")
 		}
 		c.Next()
-
 	}
 }

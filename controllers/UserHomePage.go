@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"GinWebStudy/util"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -22,7 +21,6 @@ func IndexHTML(c *gin.Context) {
 	}
 	LoadPicture := util.GetPictureList(UsernameFromUrl)
 
-	fmt.Println(LoadPicture)
 	c.HTML(http.StatusOK, "photo.html", gin.H{
 		"name":  UsernameFromUrl,
 		"image": LoadPicture,

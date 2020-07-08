@@ -5,7 +5,6 @@ import (
 	_ "GinWebStudy/util"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
 	"log"
 	"net/http"
 )
@@ -28,27 +27,29 @@ func RegisterPost(c *gin.Context) {
 	/*
 		生成结构体
 	*/
-	//转化密码为密文
-	psd, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		log.Fatal("密码加密失败!  Error:", err)
-	}
-
 	//生成用户
 	userRegister := util.User{
 		ID:          util.CreateID(),
 		Name:        username,
-		Password:    string(psd),
+		Password:    password,
 		PhoneNumber: mobile,
 	}
+	userRegister.EncryptPassword()
 
 	ans := util.SaveToDataBase(userRegister)
 	if ans {
-
 		fmt.Println("注册成功")
+		util.CreateFileDir(userRegister.Name)
 	} else {
 		log.Fatal("插入失败!")
 	}
+
+	cookie := util.UserCookie{
+		UserName: userRegister.Name,
+		Password: userRegister.Password,
+		LastTime: 3 * 3600,
+	}
+	cookie.AddCookieToRedis()
 
 	c.SetCookie("user", username, 3*3600, "/homepage", "localhost", false, true)
 	c.SetCookie("isLogin", "true", 3*3600, "/homepage", "localhost", false, true)
