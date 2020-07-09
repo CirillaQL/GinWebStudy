@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	_ "fmt"
 	"github.com/garyburd/redigo/redis"
 	"log"
@@ -46,8 +47,8 @@ func (cookie UserCookie) AddCookieToRedis() {
 	}
 }
 
-//CheckUserIsExists 判断用户是否在Redis中
-func CheckUserIsExists(username string) bool {
+//CheckUserFromRedis 判断用户是否在Redis中
+func CheckUserFromRedis(username string, password string) bool {
 	//连接Redis
 	con, err := redis.Dial("tcp", "127.0.0.1:6379")
 	if err != nil {
@@ -55,13 +56,19 @@ func CheckUserIsExists(username string) bool {
 	}
 	defer con.Close()
 
-	ans, err := con.Do("EXISTS", username)
+	PasswordInRedis, err := redis.Bytes(con.Do("hget", username, "password"))
 	if err != nil {
-		log.Fatal("在查询用户是否在Redis时出错，Error: ", err)
-	}
-	if ans == 0 {
+		log.Println("获取用户密码出错， Error: ", err)
 		return false
-	} else {
+	}
+
+	fmt.Println(password)
+	fmt.Println(string(PasswordInRedis))
+	if password == string(PasswordInRedis) {
 		return true
+	} else {
+		return false
 	}
 }
+
+//SavePictureListInRedis 保存用户的图片信息到Redis中

@@ -38,7 +38,6 @@ func CheckUserExists(PhoneNumber string) bool {
 	}
 	//关闭数据库
 	defer db.Close()
-
 	var user User
 	result := db.QueryRow("select * from User where Phone = ?", PhoneNumber)
 	err = result.Scan(&user.ID, &user.Name, &user.Password, &user.PhoneNumber)
@@ -69,8 +68,8 @@ func CheckUser(PhoneNumber string) User {
 	return user
 }
 
-//将本地文件存入数据库
-func SavePictureListIntoDataBase(username string) {
+//SavePictureListIntoDataBase 将本地文件存入数据库
+func SavePictureListIntoDataBase(picture []Picture) {
 	db, err := sql.Open("mysql", "root:123456@/Web?charset=utf8")
 	if err != nil {
 		fmt.Println(err)
@@ -78,9 +77,36 @@ func SavePictureListIntoDataBase(username string) {
 	//关闭数据库
 	defer db.Close()
 
-	//stmt,err := db.Prepare("INSERT INTO WEB.Picture(NAME, Address, Owner, Describe) VALUES (?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO Web.Picture(NAME, Address, Owner,Desicpt) VALUES (?,?,?,?)")
 	if err != nil {
 		log.Fatal("Error: ", err)
 	}
+	for _, p := range picture {
+		_, err := stmt.Exec(p.Name, p.Address, p.Owner, p.Describe)
+		if err != nil {
+			log.Fatal("插入数据库失败")
+		}
+	}
+}
 
+//GetPictureFromDB 从数据库中读取用户相册信息
+func GetPictureFromDB(username string) []Picture {
+	db, err := sql.Open("mysql", "root:123456@/Web?charset=utf8")
+	if err != nil {
+		log.Fatal(err)
+	}
+	//关闭数据库
+	defer db.Close()
+
+	var PictureList []Picture
+	var picture Picture
+	rows, err := db.Query("SELECT * FROM Web.Picture where Owner = ?", username)
+	for rows.Next() {
+		err = rows.Scan(&picture.Name, &picture.Address, &picture.Owner, &picture.Describe)
+		if err != nil {
+			log.Fatal("Scan failed,err:", err)
+		}
+		PictureList = append(PictureList, picture)
+	}
+	return PictureList
 }

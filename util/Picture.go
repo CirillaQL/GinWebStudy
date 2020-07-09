@@ -1,7 +1,7 @@
 package util
 
 import (
-	"io/ioutil"
+	_ "io/ioutil"
 	"log"
 	"os"
 )
@@ -23,21 +23,4 @@ func (p *Picture) ChangeName(username string, filename string) bool {
 		return false
 	}
 	return true
-}
-
-func GetPictureList(username string) []Picture {
-	var PictureList []Picture
-	srcDir := "./upload/" + username + "/"
-	file, _ := ioutil.ReadDir(srcDir)
-	for _, r := range file {
-		Path := srcDir + r.Name()
-		picture := Picture{
-			Name:     r.Name(),
-			Describe: "",
-			Address:  Path,
-			Owner:    username,
-		}
-		PictureList = append(PictureList, picture)
-	}
-	return PictureList
 }

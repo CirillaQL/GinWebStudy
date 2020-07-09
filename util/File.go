@@ -1,6 +1,7 @@
 package util
 
 import (
+	"io/ioutil"
 	"log"
 	"os"
 )
@@ -8,11 +9,11 @@ import (
 //CreateFileDir 给用户创建文件夹
 func CreateFileDir(username string) bool {
 	DirPath := "./upload/" + username
-	err := os.Mkdir(DirPath, os.ModePerm)
-	if err != nil {
-		log.Fatal("用户： ", username, "  创建文件夹失败， Error： ", err)
-		return false
-	}
+	os.Mkdir(DirPath, os.ModePerm)
+	//if err != nil {
+	//log.Fatal("用户： ", username, "  创建文件夹失败， Error： ", err)
+	//return false
+	//}
 	return true
 }
 
@@ -25,4 +26,22 @@ func DeleteFileDir(username string) bool {
 		return false
 	}
 	return true
+}
+
+//GetPictureList 从文件夹获取用户的图片
+func GetPictureListFromDir(username string) []Picture {
+	var PictureList []Picture
+	srcDir := "../upload/" + username + "/"
+	file, _ := ioutil.ReadDir(srcDir)
+	for _, r := range file {
+		Path := srcDir[1:] + r.Name()
+		picture := Picture{
+			Name:     r.Name(),
+			Describe: "描述",
+			Address:  Path,
+			Owner:    username,
+		}
+		PictureList = append(PictureList, picture)
+	}
+	return PictureList
 }

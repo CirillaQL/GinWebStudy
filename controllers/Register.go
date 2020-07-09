@@ -37,6 +37,7 @@ func RegisterPost(c *gin.Context) {
 	userRegister.EncryptPassword()
 
 	ans := util.SaveToDataBase(userRegister)
+	util.CreateFileDir(userRegister.Name)
 	if ans {
 		fmt.Println("注册成功")
 		util.CreateFileDir(userRegister.Name)
@@ -51,7 +52,7 @@ func RegisterPost(c *gin.Context) {
 	}
 	cookie.AddCookieToRedis()
 
-	c.SetCookie("user", username, 3*3600, "/homepage", "localhost", false, true)
-	c.SetCookie("isLogin", "true", 3*3600, "/homepage", "localhost", false, true)
+	c.SetCookie("user", userRegister.Name, 3*3600, "/homepage", "localhost", false, true)
+	c.SetCookie("password", userRegister.Password, 3*3600, "/homepage", "localhost", false, true)
 	c.Redirect(http.StatusMovedPermanently, "/homepage?username="+username)
 }

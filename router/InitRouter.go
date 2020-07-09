@@ -34,18 +34,13 @@ func InitRouter() {
 	HomePage.Use(middleware.UserCheck())
 	{
 		HomePage.GET("/", controllers.IndexHTML)
+		HomePage.GET("/AddPicture", controllers.Upload)
+		HomePage.POST("/AddPicture", controllers.GetPicture)
 	}
 
 	router.GET("/", func(context *gin.Context) {
 		context.Redirect(http.StatusMovedPermanently, "/login")
 	})
-
-	router.GET("/upload", controllers.Upload)
-
-	work := router.Group("/api")
-	{
-		work.POST("/upload", controllers.GetPicture)
-	}
 
 	router.Run(":8080")
 }

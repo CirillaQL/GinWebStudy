@@ -11,7 +11,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <span class="navbar-brand">{{.name}}</span>
+    <span class="navbar-brand" >{{.name}}</span>
     <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -23,7 +23,12 @@
 <br>
 <div class="text-center" id="main-show">
     <br/>
+    <a href="./AddPicture">
+        <button class="btn btn-primary" value="上传图片">上传图片</button>
+    </a>
+
     <div class="container">
+        <div id="username" value="{{.name}}"></div>
         <div class="row">
             {{range .image}}
             <div class="col-md-4">
@@ -32,9 +37,9 @@
                     <img class="card-img-top img-thumbnail" src="{{.Address}}" onclick="javascript:window.open(this.src)">
                     <div class="card-body">
                         <h4 class="card-title">{{.Name}}</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <p class="card-text">{{.Describe}}</p>
                         <button class="btn btn-primary check" id="Check" onclick="lookimg({{.Address}})">查看</button>
-                        <a class="btn btn-primary delete" id="Delete">删除</a>
+                        <a class="btn btn-primary delete" id="Delete" onclick="todelete({{.Address}})">删除</a>
                     </div>
                 </div>
                 <br/>
@@ -53,12 +58,11 @@
 <script>
     function lookimg(str)
     {
-        var newwin=window.open()
+        var newwin = window.open()
         newwin.document.write("<img src="+str+" />")
+        <!--newwin.document.write(str)-->
     }
+
 </script>
-
-
-
 </body>
 </html>

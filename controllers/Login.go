@@ -38,7 +38,7 @@ func LoginPost(ctx *gin.Context) {
 		}
 		cookie.AddCookieToRedis()
 		ctx.SetCookie("user", user.Name, 3*3600, "/homepage", "localhost", false, true)
-		ctx.SetCookie("isLogin", "true", 3*3600, "/homepage", "localhost", false, true)
+		ctx.SetCookie("password", user.Password, 3*3600, "/homepage", "localhost", false, true)
 		ctx.Redirect(http.StatusMovedPermanently, "/homepage?username="+user.Name)
 	}
 }

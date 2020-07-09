@@ -16,10 +16,13 @@ func IndexHTML(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/login")
 	}
 	UsernameFromUrl := c.Query("username")
+
 	if UsernameFromCookie != UsernameFromUrl {
 		c.Redirect(http.StatusMovedPermanently, "/login")
 	}
-	LoadPicture := util.GetPictureList(UsernameFromUrl)
+
+	LoadPicture := util.GetPictureFromDB(UsernameFromUrl)
+	//var LoadPicture []util.Picture
 
 	c.HTML(http.StatusOK, "photo.html", gin.H{
 		"name":  UsernameFromUrl,

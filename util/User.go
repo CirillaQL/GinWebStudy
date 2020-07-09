@@ -61,3 +61,7 @@ func (user *User) CheckPassword(InputPassword string) bool {
 		return false
 	}
 }
+
+func (user *User) ReturnPassword() string {
+	return user.Password
+}
